@@ -6,7 +6,9 @@ const session= require('express-session');
 const levenshtein = require('fast-levenshtein');
 
 const MongoClient = require('mongodb').MongoClient;
-const mongourl = "mongodb://localhost:27017/";
+//const mongourl = "mongodb://localhost:27017/";
+const mongourl = "mongodb://ropafadzo1993:pass1234@ds231360.mlab.com:31360/scrapesites";
+
 
 const app =express();
 // Middlewares
@@ -41,7 +43,7 @@ app.get('/api/symptoms',function(req,res){
 
   MongoClient.connect(mongourl, function(err, db) {
       if (err) {isfound=false; return;};
-      var dbo = db.db("webmd");
+      var dbo = db.db("scrapesites");
       dbo.collection("modSymptoms").find(query).collation( { locale: 'en', strength: 2 } ).toArray(function(error, reslts) {
           if (error) {throw error;return;}
             console.log(reslts.length);
