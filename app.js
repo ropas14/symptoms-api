@@ -33,16 +33,16 @@ app.get("/",function(req,res){
 });
 
 app.get('/api/symptoms',function(req,res){
- var sympt = req.query.search.trim();
+ var sympt = req.query.search.toLowerCase().trim();
  console.log(sympt);
- var query=  {$text: { $search: sympt }};
+ var query= {sy : {$regex : ".*"+sympt+".*"}};
  var initarr=[];
  var incdsarr=[];
 
   MongoClient.connect(mongourl, function(err, db) {
       if (err) {isfound=false; return;};
       var dbo = db.db("webmd");
-      dbo.collection("modSymptoms").find(query).toArray(function(error, reslts) {
+      dbo.collection("modSymptoms").find(query).collation( { locale: 'en', strength: 2 } ).toArray(function(error, reslts) {
           if (error) {throw error;return;}
             console.log(reslts.length);
             reslts.forEach(function(item){
@@ -50,9 +50,10 @@ app.get('/api/symptoms',function(req,res){
             	var item1=item.sy;
              if(item1.startsWith(sympt)){
              	var startsobj={};
-             	startsobj.sy=item.sy
-                startsobj.url=item.ur
-                initarr.push(startsobj);
+              startsobj.rl=item.rl;
+             	startsobj.sy=item.sy;
+              startsobj.url=item.ur;
+              initarr.push(startsobj);
              }
              else if(item1.includes(sympt)){
              	var includesobj = {};
@@ -63,6 +64,7 @@ app.get('/api/symptoms',function(req,res){
                    }
              	}
              if(num==0){
+                includesobj.rl=item.rl;
                 includesobj.sy=item.sy
                 includesobj.url=item.ur
                 incdsarr.push(includesobj);
@@ -80,3 +82,5 @@ app.get('/api/symptoms',function(req,res){
 
 app.listen(app.get('port'));
 console.log("server listening on port " + app.get('port'));
+
+module.exports=app;

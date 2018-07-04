@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Home</title>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<title>Symptoms</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<style type="text/css">
        #btnSubmit{
@@ -42,7 +42,7 @@ td, th {
   text-align: left; 
 }
  
-tr td:hover { background: #666; color: #FFF; }  
+tr td:hover { background: #f0f8ff; color: #5d0a90; }  
 	</style>
 </head>
 
@@ -51,13 +51,14 @@ tr td:hover { background: #666; color: #FFF; }
 <form id="form1" action="" title="" method="post">
       <div>          
         <input type="text" id="txtsearch" name="search " style="padding: 6px 30px 8px 20px;border: 2px solid #6f6f6f;">
-       <input type="submit" id="btnSubmit"  name="submitButton" value="Search">
+       <input type="submit" id="btnSubmit"  name="submitButton" value="Search" >
       </div>
  </form>
 
 <table id="table-items">
 	<thead id="tableHeaders">
 	<tr>
+       <th>Relation</th>
         <th>Symptoms</th>
         <th>More Information</th>
     </tr>
@@ -78,13 +79,13 @@ $(function(){
    var search = $('#txtsearch').val();
    $.ajax({
    type:'GET',
-   url :"/api/symptoms/?search="+search,
+   url :"/api/symptoms?search="+search,
    dataType: 'json',
     success: function(data) {
         console.log('success',data);
         $('tbody#tableData').empty();
          $.each(data, function(indx, elemnt) {
-        $('tbody#tableData').append('<tr><td>'+ elemnt.sy +'</td><td><a href="'+ elemnt.url+'">'elemnt.url+'</a></td></tr>');
+        $('tbody#tableData').append('<tr><td>'+elemnt.rl+'</td><td>'+ elemnt.sy +'</td><td><a href="'+ elemnt.url+'">'+elemnt.url+'</a></td></tr>');
            	  $('#table-items').show();	        	      	           
           });
         },
