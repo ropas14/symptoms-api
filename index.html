@@ -58,9 +58,9 @@ tr td:hover { background: #f0f8ff; color: #5d0a90; }
 <table id="table-items">
 	<thead id="tableHeaders">
 	<tr>
-       <th>Relation</th>
+       <!-- <th>Relation</th> -->
         <th>Symptoms</th>
-        <th>More Information</th>
+       <!--  <th>More Information</th> -->
     </tr>
 	</thead>
 	<tbody id= "tableData">
@@ -85,7 +85,7 @@ $(function(){
         console.log('success',data);
         $('tbody#tableData').empty();
          $.each(data, function(indx, elemnt) {
-        $('tbody#tableData').append('<tr><td>'+elemnt.rl+'</td><td>'+ elemnt.sy +'</td><td><a href="'+ elemnt.url+'">'+elemnt.url+'</a></td></tr>');
+        $('tbody#tableData').append('<tr><td>'+ elemnt.sy +'</td></tr>');
            	  $('#table-items').show();	        	      	           
           });
         },
